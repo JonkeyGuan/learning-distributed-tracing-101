@@ -48,7 +48,7 @@ public class HelloController {
         if (serviceName == null) {
             serviceName = "localhost";
         }
-        String urlPath = "http://" + serviceName + ":8081/formatGreeting";
+        String urlPath = "http://" + serviceName + "/formatGreeting";
         URI uri = UriComponentsBuilder //
                 .fromHttpUrl(urlPath) //
                 .queryParam("name", name).build(Collections.emptyMap());
