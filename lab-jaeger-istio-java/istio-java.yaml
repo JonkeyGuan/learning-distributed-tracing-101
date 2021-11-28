@@ -34,15 +34,14 @@ spec:
     spec:
       containers:
         - name: app
-          image: csantanapr/service-a-java-istio
-          #image: image-registry.openshift-image-registry.svc:5000/default/service-a-java-istio
+          image: image-registry.openshift-image-registry.svc:5000/tracing/service-a
           env:
             - name: JAEGER_ENDPOINT
               value: http://jaeger-collector.istio-system.svc:14268/api/traces
             - name: JAEGER_PROPAGATION
               value: b3
-            - name: SERVICE_FORMATTER
-              value: service-b
+            - name: SERVICE_URL
+              value: http://service-b:8080/formatGreeting
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -55,8 +54,9 @@ metadata:
     app: service-b
 spec:
   ports:
-    - port: 8081
+    - port: 8080
       name: http
+      targetPort: 8081
   selector:
     app: service-b
 ---
@@ -82,9 +82,9 @@ spec:
     spec:
       containers:
         - name: app
-          image: csantanapr/service-b-java-istio
-          #image: image-registry.openshift-image-registry.svc:5000/default/service-b-java-istio
+          image: image-registry.openshift-image-registry.svc:5000/tracing/service-b
           env:
+
             - name: JAEGER_ENDPOINT
               value: http://jaeger-collector.istio-system.svc:14268/api/traces
             - name: JAEGER_PROPAGATION

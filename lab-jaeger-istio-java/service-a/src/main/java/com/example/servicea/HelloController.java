@@ -44,11 +44,11 @@ public class HelloController {
     }
 
     private String formatGreetingRemote(String name) {
-        String serviceName = System.getenv("SERVICE_FORMATTER");
+        String serviceName = System.getenv("SERVICE_URL");
         if (serviceName == null) {
-            serviceName = "localhost";
+            serviceName = "http://localhost:8081/formatGreeting";
         }
-        String urlPath = "http://" + serviceName;
+        String urlPath = serviceName;
         URI uri = UriComponentsBuilder //
                 .fromHttpUrl(urlPath) //
                 .queryParam("name", name).build(Collections.emptyMap());
